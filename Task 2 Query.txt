@@ -1,0 +1,34 @@
+Activity 2: Category Popularity Analysis
+Objective
+Determine which book categories receive the highest audience engagement.
+
+Instructions
+Calculate the average ratings count for each category.
+Ignore records with missing ratings.
+Display the top 10 categories with the highest average ratings count.
+
+Sort the results in descending order.
+Expected Output Columns
+Category
+Average Ratings Count
+
+SELECT Categories AS Category,
+       AVG(RatingsCount) AS Average_Ratings_Count
+FROM amazon_books
+WHERE RatingsCount IS NOT NULL
+GROUP BY Categories
+ORDER BY Average_Ratings_Count DESC
+LIMIT 10;
+
+For Saving Output in Text file
+INSERT OVERWRITE DIRECTORY 'gs://arden786/category_popularity_output/'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+SELECT Categories AS Category,
+       AVG(RatingsCount) AS Average_Ratings_Count
+FROM amazon_books
+WHERE RatingsCount IS NOT NULL
+GROUP BY Categories
+ORDER BY Average_Ratings_Count DESC
+LIMIT 10;

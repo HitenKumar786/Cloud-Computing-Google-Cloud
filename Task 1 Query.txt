@@ -1,0 +1,35 @@
+Activity 1: Publisher Analysis
+Objective
+Identify the publishers that have contributed the most books to the dataset.
+
+Instructions
+Calculate the total number of books published by each publisher.
+Display only the top 10 publishers.
+Sort the results from highest to lowest number of books.
+
+Expected Output Columns
+Publisher
+Total Number of Books
+
+Query
+
+SELECT Publisher,
+       COUNT(*) AS Total_Number_of_Books
+FROM amazon_books
+GROUP BY Publisher
+ORDER BY Total_Number_of_Books DESC
+LIMIT 10;
+
+
+For Saving Output in Text file
+
+INSERT OVERWRITE DIRECTORY 'gs://arden786/publisher_analysis_output/'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+SELECT Publisher,
+       COUNT(*) AS Total_Number_of_Books
+FROM amazon_books
+GROUP BY Publisher
+ORDER BY Total_Number_of_Books DESC
+LIMIT 10;

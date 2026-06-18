@@ -1,0 +1,33 @@
+Activity 3: Publishing Trend Analysis
+Objective
+Investigate how the number of published books changes over time.
+
+Instructions
+Extract the publication year from the publication date.
+Count the number of books published each year.
+Sort the results by year.
+Identify years with unusually high or low publication activity.
+
+Expected Output Columns
+Year
+Number of Books Published
+
+Query
+SELECT SUBSTR(PublishedDate, 1, 4) AS Year,
+       COUNT(*) AS Number_of_Books_Published
+FROM amazon_books
+WHERE PublishedDate IS NOT NULL
+GROUP BY SUBSTR(PublishedDate, 1, 4)
+ORDER BY Year;
+
+For Saving Output in Text file
+INSERT OVERWRITE DIRECTORY 'gs://arden786/publishing_trend_output/'
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+SELECT SUBSTR(PublishedDate,1,4) AS Year,
+       COUNT(*) AS Number_of_Books_Published
+FROM amazon_books
+WHERE PublishedDate IS NOT NULL
+GROUP BY SUBSTR(PublishedDate,1,4)
+ORDER BY Year;
